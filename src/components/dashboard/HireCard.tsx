@@ -15,9 +15,6 @@ export const HireCard: React.FC<HireCardProps> = ({ hire, onClick }) => {
 
   const completedSteps = hire.steps.filter(step => step.status === 'completed').length;
   const totalSteps = hire.steps.length;
-  const completedSubtasks = hire.steps.reduce((acc, step) => 
-    acc + step.subtasks.filter(subtask => subtask.completed).length, 0);
-  const totalSubtasks = hire.steps.reduce((acc, step) => acc + step.subtasks.length, 0);
 
   const nextStep = hire.steps.find(step => step.status === 'in_progress') || 
                    hire.steps.find(step => step.status === 'pending');
@@ -134,7 +131,7 @@ export const HireCard: React.FC<HireCardProps> = ({ hire, onClick }) => {
       <div className="mt-4 pt-3 border-t border-gray-100">
         {/* Mini step indicators */}
         <div className="flex items-center space-x-1 mb-3">
-          {hire.steps.map((step, index) => (
+          {hire.steps.map((step) => (
             <div
               key={step.id}
               className={cn(

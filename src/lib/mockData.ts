@@ -137,7 +137,7 @@ const generateMockHire = (id: string, name: string, position: string, customStat
   let status: NewHire['status'] = customStatus || 'not_started';
   
   // Assign specific progress values to avoid duplicates
-  const progressMap = {
+  const progressMap: Record<string, number> = {
     '1': 92,  // Lars - almost complete
     '2': 67,  // Emma - good progress
     '3': 45,  // Mikkel - halfway
@@ -265,6 +265,7 @@ const generateMockHire = (id: string, name: string, position: string, customStat
     startDate: new Date(2025, 7, 12), // August 12, 2025
     email: `${name.toLowerCase().replace(' ', '.')}@vestas.com`,
     phone: '+45 12 34 56 78',
+    photoUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&size=128`,
     windaId,
     sapId,
     employeeId,
@@ -282,6 +283,7 @@ export const mockBatch: OnboardingBatch = {
   year: 2025,
   totalHires: 12,
   completedHires: 0, // No one is 100% complete now
+  createdAt: new Date(2025, 6, 15).toISOString(), // July 15, 2025
   hires: [
     generateMockHire('1', 'Lars Nielsen', 'Service Technician', 'in_progress'),      // 92%
     generateMockHire('2', 'Emma Sørensen', 'Senior Service Tech', 'in_progress'),    // 67%

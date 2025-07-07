@@ -4,7 +4,6 @@ import { useOnboardingStore } from '../../stores/onboarding';
 import type { NewHire } from '../../types/index.js';
 import { HireCard } from './HireCard';
 import { Button } from '../ui/Button';
-import { Badge } from '../ui/Badge';
 import { mockBatch } from '../../lib/mockData';
 
 export const Dashboard: React.FC = () => {

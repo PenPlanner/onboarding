@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Check, Clock, Circle, FileText, Upload, ChevronDown, ChevronRight } from 'lucide-react';
+import { Check, Clock, FileText, Upload, ChevronDown, ChevronRight } from 'lucide-react';
 import type { OnboardingStep } from '../../types/index.js';
 import { Badge } from '../ui/Badge';
 import { cn } from '../../lib/utils';
@@ -12,7 +12,6 @@ interface ProgressStepperProps {
 
 export const ProgressStepper: React.FC<ProgressStepperProps> = ({
   steps,
-  onStepClick,
   onSubtaskToggle
 }) => {
   const completedStepCount = steps.filter(step => step.status === 'completed').length;

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import type { OnboardingBatch, NewHire, OnboardingStep, Subtask } from '../types/index.js';
+import type { OnboardingBatch, NewHire, OnboardingStep } from '../types/index.js';
+import { mockBatch } from '../lib/mockData';
 
 interface OnboardingState {
   currentBatch: OnboardingBatch | null;
@@ -9,7 +10,10 @@ interface OnboardingState {
   // Actions
   setCurrentBatch: (batch: OnboardingBatch) => void;
   addBatch: (batch: OnboardingBatch) => void;
-  updateHire: (hireId: string, updates: Partial<NewHire>) => void;
+  deleteBatch: (batchId: string) => void;
+  addHire: (batchId: string, hire: NewHire) => void;
+  updateHire: (batchId: string, hire: NewHire) => void;
+  deleteHire: (batchId: string, hireId: string) => void;
   updateStep: (hireId: string, stepId: string, updates: Partial<OnboardingStep>) => void;
   toggleSubtask: (hireId: string, stepId: string, subtaskId: string) => void;
   setSelectedHire: (hire: NewHire | null) => void;
@@ -17,8 +21,8 @@ interface OnboardingState {
 }
 
 export const useOnboardingStore = create<OnboardingState>((set, get) => ({
-  currentBatch: null,
-  batches: [],
+  currentBatch: mockBatch,
+  batches: [mockBatch],
   selectedHire: null,
 
   setCurrentBatch: (batch) => set({ currentBatch: batch }),
@@ -27,13 +31,50 @@ export const useOnboardingStore = create<OnboardingState>((set, get) => ({
     batches: [...state.batches, batch] 
   })),
 
-  updateHire: (hireId, updates) => set((state) => ({
-    currentBatch: state.currentBatch ? {
+  deleteBatch: (batchId) => set((state) => ({
+    batches: state.batches.filter(batch => batch.id !== batchId),
+    currentBatch: state.currentBatch?.id === batchId ? null : state.currentBatch
+  })),
+
+  addHire: (batchId, hire) => set((state) => ({
+    batches: state.batches.map(batch => 
+      batch.id === batchId ? {
+        ...batch,
+        hires: [...batch.hires, hire],
+        totalHires: batch.totalHires + 1
+      } : batch
+    ),
+    currentBatch: state.currentBatch?.id === batchId ? {
       ...state.currentBatch,
-      hires: state.currentBatch.hires.map(hire => 
-        hire.id === hireId ? { ...hire, ...updates } : hire
-      )
-    } : null
+      hires: [...state.currentBatch.hires, hire],
+      totalHires: state.currentBatch.totalHires + 1
+    } : state.currentBatch
+  })),
+
+  updateHire: (batchId, hire) => set((state) => ({
+    batches: state.batches.map(batch => 
+      batch.id === batchId ? {
+        ...batch,
+        hires: batch.hires.map(h => h.id === hire.id ? hire : h)
+      } : batch
+    ),
+    currentBatch: state.currentBatch?.id === batchId ? {
+      ...state.currentBatch,
+      hires: state.currentBatch.hires.map(h => h.id === hire.id ? hire : h)
+    } : state.currentBatch
+  })),
+
+  deleteHire: (batchId, hireId) => set((state) => ({
+    batches: state.batches.map(batch => 
+      batch.id === batchId ? {
+        ...batch,
+        hires: batch.hires.filter(h => h.id !== hireId)
+      } : batch
+    ),
+    currentBatch: state.currentBatch?.id === batchId ? {
+      ...state.currentBatch,
+      hires: state.currentBatch.hires.filter(h => h.id !== hireId)
+    } : state.currentBatch
   })),
 
   updateStep: (hireId, stepId, updates) => set((state) => ({

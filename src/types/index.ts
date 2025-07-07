@@ -49,6 +49,7 @@ export interface NewHire {
   startDate: Date;
   email: string;
   phone?: string;
+  photoUrl: string;
   windaId?: string;
   sapId?: string;
   employeeId?: string;
@@ -66,6 +67,7 @@ export interface OnboardingBatch {
   hires: NewHire[];
   totalHires: number;
   completedHires: number;
+  createdAt: string;
 }
 
 export type StepCategory = 'documents' | 'security' | 'training' | 'equipment' | 'orientation';

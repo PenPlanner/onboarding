@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, Mail, Phone, Calendar, User, Building, Award, FileText, Clock } from 'lucide-react';
+import { ArrowLeft, Mail, Phone, Calendar, User, Building, FileText, Clock } from 'lucide-react';
 import { useOnboardingStore } from '../../stores/onboarding';
 import { ProgressStepper } from '../stepper/ProgressStepper';
 import { Button } from '../ui/Button';
