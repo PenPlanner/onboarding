@@ -5,6 +5,7 @@ import { Dashboard } from './components/dashboard/Dashboard';
 import { HireDetail } from './components/dashboard/HireDetail';
 import { Login } from './components/Login';
 import { AdminPanel } from './components/admin/AdminPanel';
+import { VersionDisplay } from './components/VersionDisplay';
 import { Shield } from 'lucide-react';
 
 function App() {
@@ -31,12 +32,22 @@ function App() {
 
   // If in admin mode but not authenticated, show login
   if (isAdminMode && !isAuthenticated) {
-    return <Login onSuccess={() => {}} />;
+    return (
+      <>
+        <Login onSuccess={() => {}} />
+        <VersionDisplay />
+      </>
+    );
   }
 
   // Admin view
   if (isAdminMode && isAuthenticated) {
-    return <AdminPanel />;
+    return (
+      <>
+        <AdminPanel />
+        <VersionDisplay />
+      </>
+    );
   }
 
   // Employee view
@@ -75,6 +86,8 @@ function App() {
           <Dashboard />
         )}
       </main>
+      
+      <VersionDisplay />
     </div>
   );
 }
